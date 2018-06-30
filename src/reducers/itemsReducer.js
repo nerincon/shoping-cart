@@ -1,52 +1,60 @@
 var initialState = {
-  items: [
-    {
-      itemname: 'baseball bat',
-      count: 0,
-      price: 0
-    },
-    {
-      itemname: 'soccer ball',
-      count: 0,
-      price: 0
-    },
-    {
-      itemname: 'golf tee',
-      count: 0,
-      price: 0
-    }
-  ]
+    items: [
+        {
+            itemname: 'baseball bat',
+            count: 0,
+            price: 0
+        },
+        {
+            itemname: 'soccer ball',
+            count: 0,
+            price: 0
+        },
+        {
+            itemname: 'golf tee',
+            count: 0,
+            price: 0
+        }
+    ]
 }
 
-function items (state, action) {
-  console.log('reducer start---------------')
-  if (state === undefined) {
-    return initialState
-  }
-  console.log('reducer again---------------')
-  var newState
+function items(state = initialState, action) {
+    switch (action.type) {
+        case 'ADD':
+            // make a copy of state
+            const items = state.items.map((item, i) => {
+                if (action.payload === i) {
+                    return {
+                        ...item,
+                        count: item.count += 1
+                    }
+                }
+                return item
+            });
 
-  switch (action.type) {
-    case 'ADD':
-      console.log('got add to reducer')
-      // make a copy of state
-      newState = {...state}
-      newState.items = [...state.items]
-      newState.items.count += 1
+            return {...state, items};
 
-      return newState
+        case 'SUBTRACT':
+            // make a copy of state
+            if (state.items[action.payload].count > 0) {
+                const itemsSubtract = state.items.map((item, i) => {
+                    if (action.payload === i) {
+                        return {
+                            ...item,
+                            count: item.count -= 1
+                        }
+                    }
+                    return item
+                });
+                return {...state, items: itemsSubtract}
+            }
+            return state
+        case 'TEST':
+            return {...state, test: action.payload};
 
-    case 'SUBTRACT':
-      // make a copy of state
-      newState = {...state}
-      newState.items = [...state.items]
-
-      // update the new state
-      return newState
-
-    default:
-      return state
-  }
+        default:
+            return state
+    }
 }
 
 export default items
