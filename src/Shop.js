@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Shop.css'
-import * as actions from './actions/itemsActions'
+import {add, subtract, test, thunkFunc} from './actions/itemsActions'
 import { connect } from 'react-redux'
 import Cart from './Cart.js'
 
@@ -15,10 +15,6 @@ function ShopHeaders () {
 }
 
 class Shop extends Component {
-  constructor (props) {
-    super(props)
-    console.log('')
-  };
 
   handleAddClick (idx) {
       this.props.onClick(idx)
@@ -28,17 +24,22 @@ class Shop extends Component {
       this.props.onSubmit(idx)
   }
 
+  componentDidMount = () => {
+      console.log(this.props.items);
+  }
+
   render () {
     return (
       <div id='list'>
+          <button onClick={this.props.thunkFunc}>click me</button>
         <table>
           <ShopHeaders />
           <tbody>
             {this.props.items.map((item, idx) =>
               <tr key={idx}>
                 <td>{item.itemname}</td>
-                <td><button onClick={() => this.handleAddClick(idx)}>Add Item</button></td>
-                <td><button onClick={() => this.handleDeleteClick(idx)}>Delete Item</button></td>
+                <td><button onClick={() => this.props.add(idx)}>Add Item</button></td>
+                <td><button onClick={() => this.props.subtract(idx)}>Delete Item</button></td>
               </tr>
             )}
           </tbody>
@@ -52,26 +53,4 @@ class Shop extends Component {
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    items: state.items
-  }
-}
-
-function mapDispatchToProps (dispatch) {
-  return {
-    onClick: function(idx) {
-       console.log('got to dispatch')
-      dispatch(actions.add(idx))
-    },
-    onSubmit: function(idx) {
-      console.log('got to dispatch')
-     dispatch(actions.subtract(idx))
-   }
-  }
-}
-
-var ConnectedShop = connect(
-  mapStateToProps, mapDispatchToProps)(Shop)
-
-export default ConnectedShop
+export default connect(({items}) => ({items}), {add, subtract, test, thunkFunc})(Shop)
