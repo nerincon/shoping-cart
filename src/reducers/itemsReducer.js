@@ -36,18 +36,19 @@ function items(state = initialState, action) {
 
         case 'SUBTRACT':
             // make a copy of state
-            const itemsSubtract = state.items.map((item, i) => {
-                if (action.payload === i) {
-                    return {
-                        ...item,
-                        count: item.count -= 1
+            if (state.items[action.payload].count > 0) {
+                const itemsSubtract = state.items.map((item, i) => {
+                    if (action.payload === i) {
+                        return {
+                            ...item,
+                            count: item.count -= 1
+                        }
                     }
-                }
-                return item
-            });
-
-            return {...state, items: itemsSubtract};
-
+                    return item
+                });
+                return {...state, items: itemsSubtract}
+            }
+            return state
         case 'TEST':
             return {...state, test: action.payload};
 

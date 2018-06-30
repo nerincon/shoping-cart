@@ -31,7 +31,6 @@ class Shop extends Component {
   render () {
     return (
       <div id='list'>
-          <button onClick={this.props.thunkFunc}>click me</button>
         <table>
           <ShopHeaders />
           <tbody>
