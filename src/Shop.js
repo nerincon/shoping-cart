@@ -15,19 +15,6 @@ function ShopHeaders () {
 }
 
 class Shop extends Component {
-
-  handleAddClick (idx) {
-      this.props.onClick(idx)
-  }
-
-  handleDeleteClick (idx) {
-      this.props.onSubmit(idx)
-  }
-
-  componentDidMount = () => {
-      console.log(this.props.items);
-  }
-
   render () {
     return (
       <div id='list'>
