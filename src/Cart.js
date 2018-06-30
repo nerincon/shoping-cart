@@ -11,7 +11,7 @@ class Cart extends Component {
   render () {
     return (
       <div id='cart-list'>
-        {this.props.items.items.map((item, i) =>
+        {this.props.items.map((item, i) =>
           <ul key={i}>
             <h5>{item.itemname}</h5>
             <li>Qty: {item.count}</li>

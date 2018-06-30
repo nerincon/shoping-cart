@@ -20,17 +20,25 @@ class Shop extends Component {
     console.log('')
   };
 
+  handleAddClick (idx) {
+      this.props.onClick(idx)
+  }
+
+  handleDeleteClick (idx) {
+      this.props.onSubmit(idx)
+  }
+
   render () {
     return (
       <div id='list'>
         <table>
           <ShopHeaders />
           <tbody>
-            {this.props.items.items.map((item, i) =>
-              <tr key={i}>
+            {this.props.items.map((item, idx) =>
+              <tr key={idx}>
                 <td>{item.itemname}</td>
-                <td><button>Delete Item</button></td>
-                <td><button>Add Item</button></td>
+                <td><button onClick={() => this.handleAddClick(idx)}>Add Item</button></td>
+                <td><button onClick={() => this.handleDeleteClick(idx)}>Delete Item</button></td>
               </tr>
             )}
           </tbody>
@@ -52,10 +60,14 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    onClick: function (data) {
-      console.log('data dispatched is: ', data)
-      dispatch(actions.add(data))
-    }
+    onClick: function(idx) {
+       console.log('got to dispatch')
+      dispatch(actions.add(idx))
+    },
+    onSubmit: function(idx) {
+      console.log('got to dispatch')
+     dispatch(actions.subtract(idx))
+   }
   }
 }
 

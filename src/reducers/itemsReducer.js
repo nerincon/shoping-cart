@@ -18,18 +18,21 @@ var initialState = {
   ]
 }
 
-export function items (state, action) {
+function items (state, action) {
+  console.log('reducer start---------------')
   if (state === undefined) {
     return initialState
   }
-
+  console.log('reducer again---------------')
   var newState
 
   switch (action.type) {
     case 'ADD':
+      console.log('got add to reducer')
       // make a copy of state
       newState = {...state}
       newState.items = [...state.items]
+      newState.items.count += 1
 
       return newState
 
