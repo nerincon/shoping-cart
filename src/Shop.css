@@ -1,3 +1,15 @@
+#list {
+    display: flex;
+}
+
+#cart-header {
+    text-align: center;
+}
+
+#cart-display {
+    padding: 25px;
+}
+
 table {
     margin: 50px 0 0 100px;
     width: 20%;

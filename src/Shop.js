@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import './Shop.css'
+import * as actions from './actions/itemsActions'
+import { connect } from 'react-redux'
+import Cart from './Cart.js'
 
 function ShopHeaders () {
   return (
@@ -11,75 +14,52 @@ function ShopHeaders () {
   )
 }
 
-function ShopRows (props) {
-  return (
-    <tr>
-      <td>{props.itemname}</td>
-      <td><button id={props.itemname} onClick={(e) => props.handleAddClick(e)}>Add Item</button></td>
-      <td><button id={props.itemname} onClick={(e) => props.handleDeleteClick(e)}>Delete Item</button></td>
-    </tr>
-  )
-}
-
 class Shop extends Component {
   constructor (props) {
     super(props)
-    this.state = {
-      baseballcount: 0,
-      soccercount: 0,
-      golfcount: 0
-    }
-  }
-
-  handleAddClick (idx) {
-    var statecopy = {...this.state}
-    if (idx.target.id === 'baseball bat') {
-      statecopy.baseballcount = statecopy.baseballcount + 1
-      this.setState(statecopy)
-    }
-    if (idx.target.id === 'soccer ball') {
-      statecopy.soccercount = statecopy.soccercount + 1
-      this.setState(statecopy)
-    }
-    if (idx.target.id === 'golf tee') {
-      statecopy.golfcount = statecopy.golfcount + 1
-      this.setState(statecopy)
-    }
-  }
-
-  handleDeleteClick (idx) {
-    var statecopy = {...this.state}
-    if (idx.target.id === 'baseball bat') {
-      statecopy.baseballcount = statecopy.baseballcount - 1
-      this.setState(statecopy)
-    }
-    if (idx.target.id === 'soccer ball') {
-      statecopy.soccercount = statecopy.soccercount - 1
-      this.setState(statecopy)
-    }
-    if (idx.target.id === 'golf tee') {
-      statecopy.golfcount = statecopy.golfcount - 1
-      this.setState(statecopy)
-    }
-  }
+    console.log('')
+  };
 
   render () {
     return (
-      <div>
-        <table id='list'>
+      <div id='list'>
+        <table>
           <ShopHeaders />
           <tbody>
-            <ShopRows handleAddClick={this.handleAddClick.bind(this)} handleDeleteClick={this.handleDeleteClick.bind(this)} itemname='baseball bat' />
-            <ShopRows handleAddClick={this.handleAddClick.bind(this)} handleDeleteClick={this.handleDeleteClick.bind(this)} itemname='soccer ball' />
-            <ShopRows handleAddClick={this.handleAddClick.bind(this)} handleDeleteClick={this.handleDeleteClick.bind(this)} itemname='golf tee' />
+            {this.props.items.items.map((item, i) =>
+              <tr key={i}>
+                <td>{item.itemname}</td>
+                <td><button>Delete Item</button></td>
+                <td><button>Add Item</button></td>
+              </tr>
+            )}
           </tbody>
         </table>
-        <p>Baseball Bats: {this.state.baseballcount} - $25</p>
-        <p>Soccer Balls: {this.state.soccercount} - $20</p>
-        <p>Golf Tees: {this.state.golfcount} - $2</p>
+        <div id='cart-display'>
+          <h1 id='cart-header'>Cart</h1>
+          <Cart />
+        </div>
       </div>
     )
   }
 }
 
-export default Shop
+function mapStateToProps (state) {
+  return {
+    items: state.items
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    onClick: function (data) {
+      console.log('data dispatched is: ', data)
+      dispatch(actions.add(data))
+    }
+  }
+}
+
+var ConnectedShop = connect(
+  mapStateToProps, mapDispatchToProps)(Shop)
+
+export default ConnectedShop
