@@ -3,17 +3,20 @@ var initialState = {
         {
             itemname: 'baseball bat',
             count: 0,
-            price: 0
+            price: 0,
+            startprice: 15
         },
         {
             itemname: 'soccer ball',
             count: 0,
-            price: 0
+            price: 0,
+            startprice: 25
         },
         {
             itemname: 'golf tee',
             count: 0,
-            price: 0
+            price: 0,
+            startprice: 3
         }
     ]
 }
@@ -21,12 +24,12 @@ var initialState = {
 function items(state = initialState, action) {
     switch (action.type) {
         case 'ADD':
-            // make a copy of state
             const items = state.items.map((item, i) => {
                 if (action.payload === i) {
                     return {
                         ...item,
-                        count: item.count += 1
+                        count: item.count += 1,
+                        price: item.price += item.startprice
                     }
                 }
                 return item
@@ -35,13 +38,13 @@ function items(state = initialState, action) {
             return {...state, items};
 
         case 'SUBTRACT':
-            // make a copy of state
             if (state.items[action.payload].count > 0) {
                 const itemsSubtract = state.items.map((item, i) => {
                     if (action.payload === i) {
                         return {
                             ...item,
-                            count: item.count -= 1
+                            count: item.count -= 1,
+                            price: item.itemname === 'baseball bat' ? item.price -= 15 : item.itemname === 'soccer ball' ? item.price -= 25 : item.price -= 3
                         }
                     }
                     return item
@@ -49,8 +52,6 @@ function items(state = initialState, action) {
                 return {...state, items: itemsSubtract}
             }
             return state
-        case 'TEST':
-            return {...state, test: action.payload};
 
         default:
             return state

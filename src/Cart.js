@@ -3,11 +3,6 @@ import { connect } from 'react-redux'
 import './Cart.css'
 
 class Cart extends Component {
-  constructor (props) {
-    super(props)
-    console.log('')
-  };
-
   render () {
     return (
       <div id='cart-list'>
@@ -23,13 +18,4 @@ class Cart extends Component {
   }
 }
 
-function mapStateToProps (state) {
-  return {
-    items: state.items
-  }
-}
-
-var ConnectedShop = connect(
-  mapStateToProps)(Cart)
-
-export default ConnectedShop
+export default connect(({items}) => ({items}))(Cart)

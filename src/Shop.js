@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './Shop.css'
-import {add, subtract, test, thunkFunc} from './actions/itemsActions'
+import {add, subtract} from './actions/itemsActions'
 import { connect } from 'react-redux'
 import Cart from './Cart.js'
 
@@ -39,4 +39,4 @@ class Shop extends Component {
   }
 }
 
-export default connect(({items}) => ({items}), {add, subtract, test, thunkFunc})(Shop)
+export default connect(({items}) => ({items}), {add, subtract})(Shop)
